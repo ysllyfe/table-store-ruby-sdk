@@ -33,7 +33,7 @@ class TableStore
     self.access_key_id       = access_key_id
     self.access_key_secret   = access_key_secret
     self.instance_name       = instance_name
-
+    p 'ddd'
     #示例：创建一个TableStoreClient实例
     # from tablestore.client import TableStoreClient
     # client = TableStoreClient('your_instance_endpoint', 'your_user_id', 'your_user_key', 'your_instance_name')
@@ -72,6 +72,15 @@ class TableStore
     if response.code == 200
       "delete table #{table_name} succeed!"
     end
+  end
+
+  def _search(request)
+    api_name = "Search"
+    body = TableStoreClient.new.encode_search_request(request)
+    response = post_request(body, api_name)
+    p response
+    p 'adkfajskdlfjaskldfjkalsdfjklasdfjklsajdfklasjdfklsjaklfjkla      response'
+    TableStoreClient.new.decode_search_request(response.body)
   end
 
   ##rows

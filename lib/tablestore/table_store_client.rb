@@ -1,6 +1,7 @@
 require 'os'
 require 'protobuf/table_store.pb'
 require 'protobuf/table_store_filiter.pb'
+require 'protobuf/search.pb'
 require 'consts'
 require 'tablestore/plain_buffer_coded_output_stream'
 require 'tablestore/plain_buffer_output_stream'
@@ -51,6 +52,17 @@ class TableStoreClient
   def encode_delete_table(table_name)
     proto = DeleteTableRequest.new
     proto.table_name = table_name
+    proto.serialize_to_string
+  end
+
+  def encode_search_request(request)
+    proto = SearchRequest.new
+    proto.table_name = request[:table_name]
+    proto.index_name = request[:index_name]
+    proto.columns_to_get = request[:columns_to_get]
+    proto.search_query = request[:search_query]
+    p proto.serialize_to_string
+    p '-----------------'
     proto.serialize_to_string
   end
 
@@ -122,6 +134,24 @@ class TableStoreClient
     names = proto.table_names
     names
   end
+
+  def decode_search_request(body)
+    proto = SearchResponse.new
+    proto.parse_from_string(body)
+
+    row_list = []
+
+    if proto.rows.length != 0
+      proto.rows.each do |t|
+        inputStream = PlainBufferInputStream.new(t)
+        codedInputStream = PlainBufferCodedInputStream.new(inputStream)
+        row_list << codedInputStream.read_rows.first
+      end
+    end
+
+    return  row_list
+  end
+
 
   def decode_get_range_request(body)
     proto = GetRangeResponse.new

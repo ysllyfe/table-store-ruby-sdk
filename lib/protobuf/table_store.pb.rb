@@ -4,69 +4,69 @@
 #     required string code = 1;
 #     optional string message = 2;
 # }
-# 
+#
 # enum PrimaryKeyType {
 #     INTEGER = 1;
 #     STRING = 2;
 #     BINARY = 3;
 # }
-# 
+#
 # enum PrimaryKeyOption {
 #     AUTO_INCREMENT = 1;
 # }
-# 
+#
 # message PrimaryKeySchema {
 #     required string name = 1;
 #     required PrimaryKeyType type = 2;
 #     optional PrimaryKeyOption option = 3;
 # }
-# 
+#
 # message PartitionRange {
 #     required bytes begin = 1; // encoded as SQLVariant
 #     required bytes end = 2; // encoded as SQLVariant
 # }
-# 
+#
 # message TableOptions {
 #     optional int32 time_to_live = 1; // 可以动态更改
 #     optional int32 max_versions = 2; // 可以动态更改
 #     optional int64 deviation_cell_version_in_sec = 5; // 可以动态修改
 # }
-# 
+#
 # message TableMeta {
 #     required string table_name = 1;
 #     repeated PrimaryKeySchema primary_key = 2;
 # }
-# 
+#
 # enum RowExistenceExpectation {
 #     IGNORE = 0;
 #     EXPECT_EXIST = 1;
 #     EXPECT_NOT_EXIST = 2;
 # }
-# 
+#
 # message Condition {
 #     required RowExistenceExpectation row_existence = 1;
 #     optional bytes column_condition      = 2;
 # }
-# 
+#
 # message CapacityUnit {
 #     optional int32 read = 1;
 #     optional int32 write = 2;
 # }
-# 
+#
 # message ReservedThroughputDetails {
 #     required CapacityUnit capacity_unit = 1; // 表当前的预留吞吐量的值。
 #     required int64 last_increase_time = 2; // 最后一次上调预留吞吐量的时间。
 #     optional int64 last_decrease_time = 3; // 最后一次下调预留吞吐量的时间。
 # }
-# 
+#
 # message ReservedThroughput {
 #     required CapacityUnit capacity_unit = 1;
 # }
-# 
+#
 # message ConsumedCapacity {
 #     required CapacityUnit capacity_unit = 1;
 # }
-# 
+#
 # /* #############################################  CreateTable  ############################################# */
 # /**
 #  * table_meta用于存储表中不可更改的schema属性，可以更改的ReservedThroughput和TableOptions独立出来，作为UpdateTable的参数。
@@ -85,31 +85,31 @@
 #     optional TableOptions table_options = 3;
 #     repeated PartitionRange partitions = 4;
 # }
-# 
+#
 # message CreateTableResponse {
 # }
-# 
+#
 # /* ######################################################################################################### */
-# 
-# 
+#
+#
 # /* #############################################  UpdateTable  ############################################# */
 # message UpdateTableRequest {
 #     required string table_name = 1;
 #     optional ReservedThroughput reserved_throughput = 2;
 #     optional TableOptions table_options = 3;
 # }
-# 
+#
 # message UpdateTableResponse {
 #     required ReservedThroughputDetails reserved_throughput_details = 1;
 #     required TableOptions table_options = 2;
 # }
 # /* ######################################################################################################### */
-# 
+#
 # /* #############################################  DescribeTable  ############################################# */
 # message DescribeTableRequest {
 #     required string table_name = 1;
 # }
-# 
+#
 # message DescribeTableResponse {
 #     required TableMeta table_meta = 1;
 #     required ReservedThroughputDetails reserved_throughput_details = 2;
@@ -117,11 +117,11 @@
 #     repeated bytes shard_splits = 6;
 # }
 # /* ########################################################################################################### */
-# 
+#
 # /* #############################################  ListTable  ############################################# */
 # message ListTableRequest {
 # }
-# 
+#
 # /**
 #  * 当前只返回一个简单的名称列表，需要讨论是否有业务场景需要获取除了表名之外的其他信息。
 #  * 其他信息可以包含预留吞吐量以及表的状态，这个信息只能是一个粗略的信息，表的详细信息还是需要通过DescribeTable来获取。
@@ -130,35 +130,35 @@
 #     repeated string table_names = 1;
 # }
 # /* ####################################################################################################### */
-# 
+#
 # /* #############################################  DeleteTable  ############################################# */
 # message DeleteTableRequest {
 #     required string table_name = 1;
 # }
-# 
+#
 # message DeleteTableResponse {
 # }
 # /* ######################################################################################################### */
-# 
+#
 # /* #############################################  LoadTable  ############################################# */
 # message LoadTableRequest {
 #     required string table_name = 1;
 # }
-# 
+#
 # message LoadTableResponse {
 # }
 # /* ######################################################################################################### */
-# 
+#
 # /* #############################################  UnloadTable  ############################################# */
 # message UnloadTableRequest {
 #     required string table_name = 1;
 # }
-# 
+#
 # message UnloadTableResponse {
-# 
+#
 # }
 # /* ########################################################################################################## */
-# 
+#
 # /**
 #  * 时间戳的取值最小值为0，最大值为INT64.MAX
 #  * 1. 若要查询一个范围，则指定start_time和end_time
@@ -169,18 +169,18 @@
 #     optional int64 end_time = 2;
 #     optional int64 specific_time = 3;
 # }
-# 
+#
 # /* #############################################  GetRow  ############################################# */
-# 
+#
 # enum ReturnType {
 #     RT_NONE = 0;
 #     RT_PK = 1;
 # }
-# 
+#
 # message ReturnContent {
 #     optional ReturnType return_type = 1;
 # }
-# 
+#
 # /**
 #  * 1. 支持用户指定版本时间戳范围或者特定的版本时间来读取指定版本的列
 #  * 2. 目前暂不支持行内的断点
@@ -196,14 +196,14 @@
 #     optional string end_column = 9;
 #     optional bytes token = 10;
 # }
-# 
+#
 # message GetRowResponse {
 #     required ConsumedCapacity consumed = 1;
 #     required bytes row = 2; // encoded as InplaceRowChangeSet
 #     optional bytes next_token = 3;
 # }
 # /* #################################################################################################### */
-# 
+#
 # /* #############################################  UpdateRow  ############################################# */
 # message UpdateRowRequest {
 #     required string table_name = 1;
@@ -211,16 +211,16 @@
 #     required Condition condition = 3;
 #     optional ReturnContent return_content = 4;
 # }
-# 
+#
 # message UpdateRowResponse {
 #     required ConsumedCapacity consumed = 1;
 #     optional bytes row = 2;
 # }
 # /* ####################################################################################################### */
-# 
+#
 # /* #############################################  PutRow  ############################################# */
-# 
-# 
+#
+#
 # /**
 #  * 这里允许用户为每列单独设置timestamp，而不是强制整行统一一个timestamp。
 #  * 原因是列都是用统一的结构，该结构本身是带timestamp的，其次强制统一timestamp增强了规范性但是丧失了灵活性，且该规范性没有明显的好处，反而带来了结构的复杂。
@@ -231,13 +231,13 @@
 #     required Condition condition = 3;
 #     optional ReturnContent return_content = 4;
 # }
-# 
+#
 # message PutRowResponse {
 #     required ConsumedCapacity consumed = 1;
 #     optional bytes row = 2; // encoded as InplaceRowChangeSet
 # }
 # /* #################################################################################################### */
-# 
+#
 # /* #############################################  DeleteRow  ############################################# */
 # /**
 #  * OTS只支持删除该行的所有列所有版本，不支持：
@@ -249,13 +249,13 @@
 #     required Condition condition = 3;
 #     optional ReturnContent return_content = 4;
 # }
-# 
+#
 # message DeleteRowResponse {
 #     required ConsumedCapacity consumed = 1;
 #     optional bytes row = 2;
 # }
 # /* ####################################################################################################### */
-# 
+#
 # /* #############################################  BatchGetRow  ############################################# */
 # message TableInBatchGetRowRequest {
 #     required string table_name = 1;
@@ -268,11 +268,11 @@
 #     optional string start_column = 9;
 #     optional string end_column = 10;
 # }
-# 
+#
 # message BatchGetRowRequest {
 #     repeated TableInBatchGetRowRequest tables = 1;
 # }
-# 
+#
 # message RowInBatchGetRowResponse {
 #     required bool is_ok = 1;
 #     optional Error error = 2;
@@ -280,64 +280,64 @@
 #     optional bytes row = 4; // encoded as InplaceRowChangeSet
 #     optional bytes next_token = 5;
 # }
-# 
+#
 # message TableInBatchGetRowResponse {
 #     required string table_name = 1;
 #     repeated RowInBatchGetRowResponse rows = 2;
 # }
-# 
+#
 # message BatchGetRowResponse {
 #     repeated TableInBatchGetRowResponse tables = 1;
 # }
 # /* ######################################################################################################### */
-# 
+#
 # /* #############################################  BatchWriteRow  ############################################# */
-# 
+#
 # enum OperationType {
 #     PUT = 1;
 #     UPDATE = 2;
 #     DELETE = 3;
 # }
-# 
+#
 # message RowInBatchWriteRowRequest {
 #     required OperationType type = 1;
 #     required bytes row_change = 2; // encoded as InplaceRowChangeSet
 #     required Condition condition = 3;
 #     optional ReturnContent return_content = 4;
 # }
-# 
+#
 # message TableInBatchWriteRowRequest {
 #     required string table_name = 1;
 #     repeated RowInBatchWriteRowRequest rows = 2;
 # }
-# 
+#
 # message BatchWriteRowRequest {
 #     repeated TableInBatchWriteRowRequest tables = 1;
 # }
-# 
+#
 # message RowInBatchWriteRowResponse {
 #     required bool is_ok = 1;
 #     optional Error error = 2;
 #     optional ConsumedCapacity consumed = 3;
 #     optional bytes row = 4; // encoded as InplaceRowChangeSet
 # }
-# 
+#
 # message TableInBatchWriteRowResponse {
 #     required string table_name = 1;
 #     repeated RowInBatchWriteRowResponse rows = 2;
 # }
-# 
+#
 # message BatchWriteRowResponse {
 #     repeated TableInBatchWriteRowResponse tables = 1;
 # }
 # /* ########################################################################################################### */
-# 
+#
 # /* #############################################  GetRange  ############################################# */
 # enum Direction {
 #     FORWARD = 0;
 #     BACKWARD = 1;
 # }
-# 
+#
 # /**
 #  * HBase支持以下参数：
 #  *     1. TimeRange或指定time
@@ -358,7 +358,7 @@
 #     optional string end_column = 12;
 #     optional bytes token = 13;
 # }
-# 
+#
 # message GetRangeResponse {
 #     required ConsumedCapacity consumed = 1;
 #     required bytes rows = 2; // encoded as InplaceRowChangeSet
@@ -366,7 +366,7 @@
 #     optional bytes next_token = 4;
 # }
 # /* ###################################################################################################### */
-# 
+#
 
 require 'protobuf/message/message'
 require 'protobuf/message/enum'
@@ -462,9 +462,12 @@ class CreateTableRequest < ::Protobuf::Message
   optional :TableOptions, :table_options, 3
   repeated :PartitionRange, :partitions, 4
 end
+
+
 class CreateTableResponse < ::Protobuf::Message
   defined_in __FILE__
 end
+
 class UpdateTableRequest < ::Protobuf::Message
   defined_in __FILE__
   required :string, :table_name, 1

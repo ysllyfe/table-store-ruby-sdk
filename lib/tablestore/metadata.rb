@@ -40,6 +40,7 @@ ALL = [
 ]
 
 module Metadata
+
   class TableMeta
     attr_accessor :table_name, :schema_of_primary_key
     def initialize(table_name, schema_of_primary_key)
@@ -284,6 +285,12 @@ module Metadata
     end
   end
 
+  class SearchQuery
+    def initialize
+
+    end
+  end
+
   class BatchGetRowRequest
     def initialize
       @items = {}
@@ -305,6 +312,8 @@ module Metadata
       @items[table_item.table_name] = table_item
     end
   end
+
+
 
   class TableInBatchWriteRowItem
     attr_accessor :table_name, :row_items

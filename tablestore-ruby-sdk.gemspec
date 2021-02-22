@@ -13,4 +13,5 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "ruby_protobuf", "~> 0.4", ">=0.4.11"
   s.add_runtime_dependency "digest-crc", "~> 0.4"
   s.add_runtime_dependency "os", "~> 1.0"
+  s.add_runtime_dependency "google-protobuf", "~> 3.13"
 end
