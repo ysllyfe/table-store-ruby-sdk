@@ -61,6 +61,8 @@ class TableStoreClient
     proto.index_name = request[:index_name]
     proto.columns_to_get = request[:columns_to_get]
     proto.search_query = request[:search_query]
+    p proto
+    p '-----------------'
     p proto.serialize_to_string
     p '-----------------'
     proto.serialize_to_string

@@ -1,4 +1,4 @@
-
+syntax = "proto2";
 enum FilterType {
     FT_SINGLE_COLUMN_VALUE = 1;
     FT_COMPOSITE_COLUMN_VALUE = 2;

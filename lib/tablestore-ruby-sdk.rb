@@ -33,7 +33,6 @@ class TableStore
     self.access_key_id       = access_key_id
     self.access_key_secret   = access_key_secret
     self.instance_name       = instance_name
-    p 'ddd'
     #示例：创建一个TableStoreClient实例
     # from tablestore.client import TableStoreClient
     # client = TableStoreClient('your_instance_endpoint', 'your_user_id', 'your_user_key', 'your_instance_name')
@@ -149,6 +148,7 @@ class TableStore
     begin
       RestClient.post(url, body, headers)
     rescue RestClient::ExceptionWithResponse => e
+      p e
       raise e.response
     end
   end

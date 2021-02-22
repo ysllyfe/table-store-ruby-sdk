@@ -1,3 +1,4 @@
+syntax = "proto2";
 message Error {
     required string code = 1;
     optional string message = 2;

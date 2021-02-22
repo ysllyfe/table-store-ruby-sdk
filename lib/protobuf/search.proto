@@ -1,3 +1,4 @@
+syntax = "proto2";
 enum QueryType {
     MATCH_QUERY = 1;
     MATCH_PHRASE_QUERY = 2;
@@ -442,14 +443,14 @@ message GroupByField {
     optional GroupBys sub_group_bys = 5;
 }
 
-message Range {
+message NRange {
     optional double from = 1;
     optional double to = 2;
 }
 
 message GroupByRange {
     optional string field_name = 1;
-    repeated Range ranges = 2;
+    repeated NRange ranges = 2;
     optional Aggregations sub_aggs = 3;
     optional GroupBys sub_group_bys = 4;
 }
@@ -468,7 +469,7 @@ message GeoPoint {
 message GroupByGeoDistance {
     optional string field_name = 1;
     optional GeoPoint origin = 2;
-    repeated Range ranges = 3;
+    repeated NRange ranges = 3;
     optional Aggregations sub_aggs = 4;
     optional GroupBys sub_group_bys = 5;
 }

@@ -1,7 +1,7 @@
-source 'https://gems.ruby-china.org'
+source 'https://gems.ruby-china.com'
 
 gem 'rest-client'
 gem 'http'
 gem 'digest-crc'
 gem 'os'
-gem 'ruby_protobuf'
+gem 'protobuf'

@@ -285,12 +285,6 @@ module Metadata
     end
   end
 
-  class SearchQuery
-    def initialize
-
-    end
-  end
-
   class BatchGetRowRequest
     def initialize
       @items = {}
