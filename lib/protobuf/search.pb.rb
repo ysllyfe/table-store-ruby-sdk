@@ -167,7 +167,7 @@ class SubAggSort < ::Protobuf::Message; end
 class GroupBySorter < ::Protobuf::Message; end
 class GroupBySort < ::Protobuf::Message; end
 class GroupByField < ::Protobuf::Message; end
-class NRange < ::Protobuf::Message; end
+class DRange < ::Protobuf::Message; end
 class GroupByRange < ::Protobuf::Message; end
 class GroupByFilter < ::Protobuf::Message; end
 class GeoPoint < ::Protobuf::Message; end
@@ -524,14 +524,14 @@ class GroupByField
   optional ::GroupBys, :sub_group_bys, 5
 end
 
-class NRange
+class DRange
   optional :double, :from, 1
   optional :double, :to, 2
 end
 
 class GroupByRange
   optional :string, :field_name, 1
-  repeated ::NRange, :ranges, 2
+  repeated ::DRange, :ranges, 2
   optional ::Aggregations, :sub_aggs, 3
   optional ::GroupBys, :sub_group_bys, 4
 end
@@ -550,7 +550,7 @@ end
 class GroupByGeoDistance
   optional :string, :field_name, 1
   optional ::GeoPoint, :origin, 2
-  repeated ::NRange, :ranges, 3
+  repeated ::DRange, :ranges, 3
   optional ::Aggregations, :sub_aggs, 4
   optional ::GroupBys, :sub_group_bys, 5
 end

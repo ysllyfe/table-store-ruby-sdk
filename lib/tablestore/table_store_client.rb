@@ -63,6 +63,8 @@ class TableStoreClient
     proto.search_query = request[:search_query]
     p proto
     p '-----------------'
+    print proto
+    p '-----------------'
     p proto.serialize_to_string
     p '-----------------'
     proto.serialize_to_string
